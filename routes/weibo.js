@@ -48,7 +48,7 @@ module.exports = function(req, res) {
       if (wb.title.length > 24) {
         wb.title = wb.title.slice(0, 24) + '...';
       }
-      wb.description = titleEle.text().replace(/^\s+|\s+$/g, '').replace(/thumbnail/, 'large');
+      wb.description = titleEle.html().replace(/^\s+|\s+$/g, '').replace(/thumbnail/, 'large');
       wb.pubDate = getTime(item.find('.link_d').html());
       wb.link = item.find('.wgtCell_tm a').attr('href');
       wbs.push(wb);

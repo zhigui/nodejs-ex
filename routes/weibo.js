@@ -30,6 +30,10 @@ module.exports = function(req, res) {
   var debug = query.debug;
 
   var uid = req.params.uid;
+  var filterArray = []
+  if (req.params.filter) {
+    filterArray = req.params.filter.split('|')
+  }
 
   fetch(`http://service.weibo.com/widget/widget_blog.php?uid=${uid}`).then(
     response => response.text()
@@ -51,7 +55,15 @@ module.exports = function(req, res) {
       wb.description = titleEle.html().replace(/^\s+|\s+$/g, '').replace(/thumbnail/, 'large');
       wb.pubDate = getTime(item.find('.link_d').html());
       wb.link = item.find('.wgtCell_tm a').attr('href');
-      wbs.push(wb);
+      if (filterArray.length){
+        if (filterArray.some(function(v) {
+          return wb.description.indexOf(v) >= 0;
+        })) {
+          wbs.push(wb);
+        }
+      } else {
+        wbs.push(wb);
+      }
     });
     var name = $('.userNm').text();
 

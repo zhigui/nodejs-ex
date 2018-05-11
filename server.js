@@ -31,7 +31,7 @@ app.get('/', function (req, res) {
   res.send('Hello World!');
 });
 
-app.get('/rss/:uid', require('./routes/weibo'));
+app.get('/rss/:uid/:filter?', require('./routes/weibo'));
 
 app.listen(port, ip);
 console.log('Server running on http://%s:%s', ip, port);
